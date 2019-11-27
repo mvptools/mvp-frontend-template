@@ -31,6 +31,7 @@
                             block>
                               Login
                           </v-btn>
+                          <p v-if="error">{{ error }}</p>
                         </template>
                     </ApolloMutation>
                   </v-col>

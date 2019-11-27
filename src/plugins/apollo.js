@@ -26,7 +26,9 @@ const defaultOptions = {
   websocketsOnly: false,
   ssr: false,
   getAuth: () => {
-    return 'bearer ' + JSON.parse(localStorage.getItem(AUTH_TOKEN)).api_token
+    return (localStorage.getItem(AUTH_TOKEN) !== null)
+      ? JSON.parse(localStorage.getItem(AUTH_TOKEN)).api_token
+      : ''
   }
 }
 

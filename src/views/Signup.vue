@@ -35,7 +35,7 @@
                 </v-text-field>
                 <v-text-field
                   label="Password"
-                  type="signup.password"
+                  type="password"
                   v-model="signup.password">
                 </v-text-field>
                 <v-text-field
