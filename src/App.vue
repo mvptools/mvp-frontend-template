@@ -11,7 +11,7 @@
           <v-btn
             v-for="link in links"
             :key="link.id"
-            :to="link.path"
+            @click="link.method"
             text>
               <v-icon>{{ link.icon }}</v-icon>
               {{ link.name }}
@@ -31,19 +31,39 @@ export default {
     appName: process.env.VUE_APP_NAME
   }),
   computed: {
+    isAuthenticatedUser () {
+      return this.$store.getters.isAuthenticatedUser
+    },
     links () {
+      if (this.isAuthenticatedUser) {
+        return [
+          {
+            id: 1,
+            name: 'Logout',
+            icon: 'mdi-exit-to-app',
+            method: () => {
+              this.$store.dispatch('logout')
+            }
+          }
+        ]
+      }
+
       return [
         {
           id: 1,
           name: 'Login',
-          path: '/login',
-          icon: 'mdi-account'
+          icon: 'mdi-account',
+          method: () => {
+            location.href = '/#/login'
+          }
         },
         {
           id: 2,
           name: 'Sign Up',
-          path: '/signup',
-          icon: 'mdi-account-plus'
+          icon: 'mdi-account-plus',
+          method: () => {
+            location.href = '/#/signup'
+          }
         }
       ]
     }

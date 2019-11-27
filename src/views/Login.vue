@@ -31,7 +31,6 @@
                             block>
                               Login
                           </v-btn>
-                          <p v-if="error">{{ error }}</p>
                         </template>
                     </ApolloMutation>
                   </v-col>
@@ -54,8 +53,6 @@
 </template>
 
 <script>
-import { onLogin } from '@/plugins/apollo'
-
 export default {
   name: 'Login',
   data: () => ({
@@ -66,7 +63,7 @@ export default {
   }),
   methods: {
     loginUser (response) {
-      onLogin(this.$apollo.provider.defaultClient, response.data.login)
+      this.$store.dispatch('login', response.data.login)
     }
   }
 }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
+import FOFError from '@/views/FOFError'
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ const routes = [
     name: 'SignUp',
     path: '/signup',
     component: Signup
+  },
+  {
+    name: 'FOFError',
+    path: '*',
+    component: FOFError
   }
 ]
 

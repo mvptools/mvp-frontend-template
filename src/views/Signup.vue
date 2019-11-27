@@ -79,8 +79,6 @@
 </template>
 
 <script>
-import { onLogin } from '@/plugins/apollo'
-
 export default {
   name: 'Signup',
   data: () => ({
@@ -95,7 +93,7 @@ export default {
   }),
   methods: {
     signupUser (response) {
-      onLogin(this.$apollo.provider.defaultClient, response.data.signup)
+      this.$store.dispatch('login', response.data.signup)
     }
   }
 }

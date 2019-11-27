@@ -1,14 +1,9 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { createApolloClient } from 'vue-cli-plugin-apollo/graphql-client'
+import store from '@/store'
 
 Vue.use(VueApollo)
-
-// Name Of The Token In localStorage
-const AUTH_TOKEN = 'apollo-token'
-
-// Name Of The User In localStorage
-const AUTH_USER = 'apollo-user'
 
 // HTTP Endpoint
 const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost/graphql'
@@ -21,14 +16,12 @@ Vue.prototype.$filesRoot = filesRoot
 const defaultOptions = {
   httpEndpoint,
   wsEndpoint: null,
-  tokenName: AUTH_TOKEN,
+  tokenName: null,
   persisting: false,
   websocketsOnly: false,
   ssr: false,
   getAuth: () => {
-    return (localStorage.getItem(AUTH_TOKEN) !== null)
-      ? JSON.parse(localStorage.getItem(AUTH_TOKEN)).api_token
-      : ''
+    return store.getters.authHeader
   }
 }
 
@@ -48,34 +41,4 @@ export function createProvider (options = {}) {
   })
 
   return apolloProvider
-}
-
-// On User Login
-export async function onLogin (apolloClient, data) {
-  if (typeof localStorage !== 'undefined' && data) {
-    localStorage.setItem(AUTH_TOKEN, JSON.stringify(data.token))
-    localStorage.setItem(AUTH_USER, JSON.stringify(data.user))
-  }
-
-  try {
-    await apolloClient.resetStore()
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (login)', 'color: orange;', e.message)
-  }
-}
-
-// On User Logout
-export async function onLogout (apolloClient) {
-  if (typeof localStorage !== 'undefined') {
-    localStorage.removeItem(AUTH_TOKEN)
-    localStorage.removeItem(AUTH_USER)
-  }
-
-  try {
-    await apolloClient.resetStore()
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (logout)', 'color: orange;', e.message)
-  }
 }
