@@ -6,7 +6,7 @@
           <v-card>
             <v-card-title>Login</v-card-title>
             <v-card-text>
-              <v-form>
+              <v-form @submit.prevent="loginUser">
                 <v-text-field
                   label="Email/Username"
                   type="text"
@@ -19,20 +19,12 @@
                 </v-text-field>
                 <v-row>
                   <v-col md6>
-                    <ApolloMutation
-                      :mutation="require('@/graphql/login.gql')"
-                      :variables="login"
-                      @done="loginUser">
-                        <template v-slot="{ mutate, loading, error }">
-                          <v-btn
-                            color="primary"
-                            @click="mutate()"
-                            :disabled="loading"
-                            block>
-                              Login
-                          </v-btn>
-                        </template>
-                    </ApolloMutation>
+                    <v-btn
+                      color="primary"
+                      type="submit"
+                      block>
+                        Login
+                    </v-btn>
                   </v-col>
                   <v-col md6>
                     <v-btn
@@ -62,8 +54,9 @@ export default {
     }
   }),
   methods: {
-    loginUser (response) {
-      this.$store.dispatch('login', response.data.login)
+    loginUser () {
+      this.$store.dispatch('login', this.login)
+      this.$router.push('/dashboard')
     }
   }
 }

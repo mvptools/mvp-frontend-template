@@ -1,11 +1,16 @@
 module.exports = {
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.(graphql|gql)?$/,
+          loader: 'webpack-graphql-loader'
+        }
+      ]
+    }
+  },
   devServer: {
     disableHostCheck: true
-  },
-  pluginOptions: {
-    apollo: {
-      lintGQL: false
-    }
   },
   transpileDependencies: [
     'vuetify'

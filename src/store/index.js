@@ -1,23 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import graphql from '@/plugins/graphql'
+import isJSON from 'is-json'
+
+import login from '@/graphql/login.gql'
+import signup from '@/graphql/signup.gql'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    token: (localStorage.getItem('token') !== null)
+    token: isJSON(localStorage.getItem('token'))
       ? JSON.parse(localStorage.getItem('token'))
       : null,
-    user: (localStorage.getItem('user') !== null)
+    user: isJSON(localStorage.getItem('user'))
       ? JSON.parse(localStorage.getItem('user'))
       : null
   },
   getters: {
-    authHeader: state => {
-      return (state.token !== null)
-        ? 'bearer ' + state.token.api_token
-        : ''
-    },
     currentUser: state => {
       return state.user
     },
@@ -30,16 +30,36 @@ const store = new Vuex.Store({
   },
   mutations: {
     login (state, payload) {
-      state.token = payload.token
-      state.user = payload.user
-      localStorage.setItem('token', JSON.stringify(payload.token))
-      localStorage.setItem('user', JSON.stringify(payload.user))
+      graphql.request(login, {
+        login: payload.login,
+        password: payload.password
+      }).then(data => {
+        state.token = data.login.token
+        state.user = data.login.user
+        localStorage.setItem('token', JSON.stringify(data.login.token))
+        localStorage.setItem('user', JSON.stringify(data.login.user))
+      })
     },
     logout (state) {
       state.token = null
       state.user = null
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+    },
+    signup (state, payload) {
+      graphql.request(signup, {
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        email: payload.email,
+        username: payload.username,
+        password: payload.password,
+        password_confirmation: payload.password_confirmation
+      }).then(data => {
+        state.token = data.signup.token
+        state.user = data.signup.user
+        localStorage.setItem('token', JSON.stringify(data.signup.token))
+        localStorage.setItem('user', JSON.stringify(data.signup.user))
+      })
     }
   },
   actions: {
@@ -48,6 +68,9 @@ const store = new Vuex.Store({
     },
     logout (context) {
       context.commit('logout')
+    },
+    signup (context, payload) {
+      context.commit('signup', payload)
     }
   }
 })

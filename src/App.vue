@@ -43,6 +43,7 @@ export default {
             icon: 'mdi-exit-to-app',
             method: () => {
               this.$store.dispatch('logout')
+              location.href = '/#/'
             }
           }
         ]

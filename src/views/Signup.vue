@@ -6,7 +6,7 @@
           <v-card>
             <v-card-title>Sign Up</v-card-title>
             <v-card-text>
-              <v-form>
+              <v-form @submit.prevent="signupUser">
                 <v-row>
                   <v-col md6>
                     <v-text-field
@@ -45,20 +45,12 @@
                 </v-text-field>
                 <v-row>
                   <v-col md6>
-                    <ApolloMutation
-                      :mutation="require('@/graphql/signup.gql')"
-                      :variables="signup"
-                      @done="signupUser">
-                        <template v-slot="{ mutate, loading, error }">
-                          <v-btn
-                            color="primary"
-                            @click="mutate()"
-                            :disabled="loading"
-                            block>
-                              Sign Up
-                          </v-btn>
-                        </template>
-                    </ApolloMutation>
+                    <v-btn
+                      color="primary"
+                      type="submit"
+                      block>
+                        Sign Up
+                    </v-btn>
                   </v-col>
                   <v-col md6>
                     <v-btn
@@ -92,8 +84,9 @@ export default {
     }
   }),
   methods: {
-    signupUser (response) {
-      this.$store.dispatch('login', response.data.signup)
+    signupUser () {
+      this.$store.dispatch('signup', this.signup)
+      this.$router.push('/signup')
     }
   }
 }
