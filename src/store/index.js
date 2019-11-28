@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import graphql from '@/plugins/graphql'
+import axios from '@/plugins/axios'
 import isJSON from 'is-json'
 
 import login from '@/graphql/login.gql'
@@ -30,14 +30,17 @@ const store = new Vuex.Store({
   },
   mutations: {
     login (state, payload) {
-      graphql.request(login, {
-        login: payload.login,
-        password: payload.password
-      }).then(data => {
-        state.token = data.login.token
-        state.user = data.login.user
-        localStorage.setItem('token', JSON.stringify(data.login.token))
-        localStorage.setItem('user', JSON.stringify(data.login.user))
+      axios({
+        method: 'post',
+        data: {
+          query: login,
+          variables: payload
+        }
+      }).then(response => {
+        state.token = response.data.data.login.token
+        state.user = response.data.data.login.user
+        localStorage.setItem('token', JSON.stringify(response.data.data.login.token))
+        localStorage.setItem('user', JSON.stringify(response.data.data.login.user))
       })
     },
     logout (state) {
@@ -47,18 +50,17 @@ const store = new Vuex.Store({
       localStorage.removeItem('user')
     },
     signup (state, payload) {
-      graphql.request(signup, {
-        first_name: payload.first_name,
-        last_name: payload.last_name,
-        email: payload.email,
-        username: payload.username,
-        password: payload.password,
-        password_confirmation: payload.password_confirmation
-      }).then(data => {
-        state.token = data.signup.token
-        state.user = data.signup.user
-        localStorage.setItem('token', JSON.stringify(data.signup.token))
-        localStorage.setItem('user', JSON.stringify(data.signup.user))
+      axios({
+        method: 'post',
+        data: {
+          query: signup,
+          variables: payload
+        }
+      }).then(response => {
+        state.token = response.data.data.signup.token
+        state.user = response.data.data.signup.user
+        localStorage.setItem('token', JSON.stringify(response.data.data.signup.token))
+        localStorage.setItem('user', JSON.stringify(response.data.data.signup.user))
       })
     }
   },
