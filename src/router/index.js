@@ -5,6 +5,7 @@ import Home from '@/views/Home'
 import Dashboard from '@/views/Dashboard'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
+import Verify from '@/views/Verify'
 import FOFError from '@/views/FOFError'
 
 Vue.use(VueRouter)
@@ -29,6 +30,11 @@ const routes = [
     name: 'SignUp',
     path: '/signup',
     component: Signup
+  },
+  {
+    name: 'Verify',
+    path: '/verify',
+    component: Verify
   },
   {
     name: 'FOFError',
