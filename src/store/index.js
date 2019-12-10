@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from '@/plugins/axios'
 import isJSON from 'is-json'
+import axios from '@/plugins/axios'
 
 import login from '@/graphql/login.gql'
 import signup from '@/graphql/signup.gql'
+import verify from '@/graphql/verify.gql'
+import verifyresend from '@/graphql/verifyresend.gql'
 
 Vue.use(Vuex)
 
@@ -26,6 +28,15 @@ const store = new Vuex.Store({
         state.token !== null &&
         state.user !== null
       )
+    },
+    isVerifiedUser: state => {
+      let isVerifiedUser = false
+
+      try {
+        isVerifiedUser = state.user.email_verified
+      } catch (error) {}
+
+      return isVerifiedUser
     }
   },
   mutations: {
@@ -41,6 +52,7 @@ const store = new Vuex.Store({
         state.user = response.data.data.login.user
         localStorage.setItem('token', JSON.stringify(response.data.data.login.token))
         localStorage.setItem('user', JSON.stringify(response.data.data.login.user))
+        location.reload()
       })
     },
     logout (state) {
@@ -48,6 +60,7 @@ const store = new Vuex.Store({
       state.user = null
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+      location.reload()
     },
     signup (state, payload) {
       axios({
@@ -61,6 +74,30 @@ const store = new Vuex.Store({
         state.user = response.data.data.signup.user
         localStorage.setItem('token', JSON.stringify(response.data.data.signup.token))
         localStorage.setItem('user', JSON.stringify(response.data.data.signup.user))
+        location.reload()
+      })
+    },
+    verify (state, payload) {
+      axios({
+        method: 'post',
+        data: {
+          query: verify,
+          variables: payload
+        }
+      }).then(response => {
+        state.token = response.data.data.verify.token
+        state.user = response.data.data.verify.user
+        localStorage.setItem('token', JSON.stringify(response.data.data.verify.token))
+        localStorage.setItem('user', JSON.stringify(response.data.data.verify.user))
+        location.reload()
+      })
+    },
+    verify_resend () {
+      axios({
+        method: 'post',
+        data: {
+          query: verifyresend
+        }
       })
     }
   },
@@ -73,6 +110,12 @@ const store = new Vuex.Store({
     },
     signup (context, payload) {
       context.commit('signup', payload)
+    },
+    verify (context, payload) {
+      context.commit('verify', payload)
+    },
+    verify_resend (context, payload) {
+      context.commit('verify_resend', payload)
     }
   }
 })

@@ -1,0 +1,3 @@
+mutation VerifyResend {
+  verify_resend
+}

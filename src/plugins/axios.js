@@ -10,4 +10,12 @@ const axiosInstance = axios.create({
     : undefined
 })
 
+axiosInstance.interceptors.response.use(response => {
+  if (response.data.errors !== undefined) {
+    return Promise.reject(response.data.errors)
+  }
+
+  return response
+})
+
 export default axiosInstance

@@ -34,6 +34,9 @@ export default {
     isAuthenticatedUser () {
       return this.$store.getters.isAuthenticatedUser
     },
+    isVerifiedUser () {
+      return this.$store.getters.isVerifiedUser
+    },
     links () {
       if (this.isAuthenticatedUser) {
         return [
@@ -41,10 +44,7 @@ export default {
             id: 1,
             name: 'Logout',
             icon: 'mdi-exit-to-app',
-            method: () => {
-              this.$store.dispatch('logout')
-              location.href = '/#/'
-            }
+            method: () => this.$store.dispatch('logout')
           }
         ]
       }

@@ -1,18 +1,26 @@
 <template>
   <div id="home">
-      <v-container fluid>
-      <v-row>
-        <v-col md12>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-parallax
+      src="@/assets/background.jpg"
+      dark>
+        <v-row
+          align="center"
+          justify="center">
+            <v-col class="text-center">
+              <h1 class="display-3">Welcome!</h1>
+              <h2 class="headline">{{ appName }}</h2>
+            </v-col>
+        </v-row>
+    </v-parallax>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Home',
-  data: () => ({})
+  data: () => ({
+    appName: process.env.VUE_APP_NAME
+  })
 }
 </script>
 

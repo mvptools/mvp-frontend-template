@@ -1,11 +1,7 @@
-mutation Login(
-  $login: String!,
-  $password: String!
+mutation Verify(
+  $token: String!
 ) {
-  login(input: {
-    login: $login,
-    password: $password
-  }) {
+  verify(token: $token) {
     token {
       api_token,
       expires_in

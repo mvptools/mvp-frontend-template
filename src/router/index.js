@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 
 import Home from '@/views/Home'
 import Dashboard from '@/views/Dashboard'
@@ -27,13 +28,13 @@ const routes = [
     component: Login
   },
   {
-    name: 'SignUp',
+    name: 'Signup',
     path: '/signup',
     component: Signup
   },
   {
     name: 'Verify',
-    path: '/verify',
+    path: '/verify/:token?',
     component: Verify
   },
   {
@@ -45,6 +46,47 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  switch (to.name) {
+    case 'Dashboard':
+      if (store.getters.isAuthenticatedUser) {
+        if (store.getters.isVerifiedUser) {
+          next()
+        } else {
+          next('/verify')
+        }
+      } else {
+        next('/login')
+      }
+
+      break
+    case 'Login':
+    case 'Signup':
+      if (store.getters.isAuthenticatedUser) {
+        if (store.getters.isVerifiedUser) {
+          next('/dashboard')
+        } else {
+          next('/verify')
+        }
+      } else {
+        next()
+      }
+
+      break
+    case 'Verify':
+      if (store.getters.isVerifiedUser) {
+        next('/dashboard')
+      } else {
+        next()
+      }
+
+      break
+    default:
+      next()
+      break
+  }
 })
 
 export default router

@@ -22,7 +22,8 @@ mutation Signup(
       first_name,
       last_name,
       email,
-      username
+      username,
+      email_verified
     }
   }
 }
