@@ -96,7 +96,10 @@ const store = new Vuex.Store({
       axios({
         method: 'post',
         data: {
-          query: verifyresend
+          query: verifyresend,
+          variables: {
+            token: null
+          }
         }
       })
     }

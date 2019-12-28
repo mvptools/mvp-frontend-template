@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-      <v-container fluid>
+    <v-container fluid>
       <v-row>
         <v-col md12>
         </v-col>
