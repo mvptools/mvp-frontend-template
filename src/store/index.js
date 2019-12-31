@@ -5,6 +5,8 @@ import axios from '@/plugins/axios'
 
 import login from '@/graphql/login.gql'
 import signup from '@/graphql/signup.gql'
+import passwordreset from '@/graphql/passwordreset.gql'
+import sendpasswordreset from '@/graphql/sendpasswordreset.gql'
 import verify from '@/graphql/verify.gql'
 import verifyresend from '@/graphql/verifyresend.gql'
 
@@ -77,6 +79,32 @@ const store = new Vuex.Store({
         location.reload()
       })
     },
+    password_reset (state, payload) {
+      axios({
+        method: 'post',
+        data: {
+          query: passwordreset,
+          variables: payload
+        }
+      }).then(response => {
+        state.token = response.data.data.password_reset.token
+        state.user = response.data.data.password_reset.user
+        localStorage.setItem('token', JSON.stringify(response.data.data.password_reset.token))
+        localStorage.setItem('user', JSON.stringify(response.data.data.password_reset.user))
+        location.reload()
+      })
+    },
+    send_password_reset (state, payload) {
+      axios({
+        method: 'post',
+        data: {
+          query: sendpasswordreset,
+          variables: {
+            login: payload
+          }
+        }
+      })
+    },
     verify (state, payload) {
       axios({
         method: 'post',
@@ -113,6 +141,12 @@ const store = new Vuex.Store({
     },
     signup (context, payload) {
       context.commit('signup', payload)
+    },
+    password_reset (context, payload) {
+      context.commit('password_reset', payload)
+    },
+    send_password_reset (context, payload) {
+      context.commit('send_password_reset', payload)
     },
     verify (context, payload) {
       context.commit('verify', payload)

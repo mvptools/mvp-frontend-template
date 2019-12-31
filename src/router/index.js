@@ -4,6 +4,7 @@ import store from '@/store'
 
 import Home from '@/views/Home'
 import Dashboard from '@/views/Dashboard'
+import ForgotPassword from '@/views/ForgotPassword'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
 import Verify from '@/views/Verify'
@@ -21,6 +22,11 @@ const routes = [
     name: 'Dashboard',
     path: '/dashboard',
     component: Dashboard
+  },
+  {
+    name: 'ForgotPassword',
+    path: '/forgot-password/:token?',
+    component: ForgotPassword
   },
   {
     name: 'Login',
@@ -64,6 +70,7 @@ router.beforeEach((to, from, next) => {
       break
     case 'Login':
     case 'Signup':
+    case 'ForgotPassword':
       if (store.getters.isAuthenticatedUser) {
         if (store.getters.isVerifiedUser) {
           next('/dashboard')
@@ -77,9 +84,15 @@ router.beforeEach((to, from, next) => {
       break
     case 'Verify':
       if (store.getters.isVerifiedUser) {
-        next('/dashboard')
+        if (store.getters.isAuthenticatedUser) {
+          next('/dashboard')
+        }
       } else {
-        next()
+        if (store.getters.isAuthenticatedUser) {
+          next()
+        } else {
+          next('/login')
+        }
       }
 
       break

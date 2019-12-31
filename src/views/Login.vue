@@ -17,6 +17,10 @@
                   type="password"
                   v-model="login.password">
                 </v-text-field>
+                <router-link
+                  to="/forgot-password">
+                    Forgot Password?
+                </router-link>
                 <v-row>
                   <v-col md6>
                     <v-btn
