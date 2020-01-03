@@ -27,6 +27,7 @@
       v-model="drawer"
       app
       clipped>
+        <v-divider></v-divider>
         <v-list-item
           v-for="link in links"
           :key="link.id"
