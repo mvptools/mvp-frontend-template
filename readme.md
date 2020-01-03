@@ -10,5 +10,6 @@
 ### Potential To-Do Items ###
 
 - Comprehensive documentation
+- Frontend form validation
 - Pre-made tests
 - Continuous integration with GitHub Actions/Gitlab CI
