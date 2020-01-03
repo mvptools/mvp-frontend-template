@@ -61,6 +61,9 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
+import sendpasswordreset from '@/graphql/sendpasswordreset.gql'
+
 export default {
   name: 'ForgotPassword',
   data: () => ({
@@ -79,13 +82,26 @@ export default {
   },
   methods: {
     passwordReset () {
-      this.$store.dispatch('password_reset', this.password_reset)
+      this.$store.dispatch('password_reset', this.password_reset).then(response => {
+        this.$router.go()
+      }).catch(error => {
+        if (error[0].extensions.category === 'auth') {
+          this.$router.push('/login')
+        }
+      })
     },
     sendPasswordReset () {
-      this.$store.dispatch('send_password_reset', this.login).then(() => {
+      axios({
+        method: 'post',
+        data: {
+          query: sendpasswordreset,
+          variables: {
+            login: this.login
+          }
+        }
+      }).then(response => {
         this.email_sent = true
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
         this.email_sent = false
       })
     }

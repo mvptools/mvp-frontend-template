@@ -44,7 +44,9 @@ export default {
             id: 1,
             name: 'Logout',
             icon: 'mdi-exit-to-app',
-            method: () => this.$store.dispatch('logout')
+            method: () => this.$store.dispatch('logout').then(response => {
+              this.$router.go()
+            })
           }
         ]
       }

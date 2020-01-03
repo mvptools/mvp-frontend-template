@@ -4,13 +4,11 @@
 ### What's Included ###
 
 - Vue.js & Vuetify
-- Vue Apollo
+- GraphQL with Vuex & Axios
 - Basic authentication
 
 ### Potential To-Do Items ###
 
 - Comprehensive documentation
-- Local state/caching
-- Implement more complex auth functionality
 - Pre-made tests
 - Continuous integration with GitHub Actions/Gitlab CI

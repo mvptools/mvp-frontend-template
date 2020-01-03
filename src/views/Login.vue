@@ -17,10 +17,11 @@
                   type="password"
                   v-model="login.password">
                 </v-text-field>
-                <router-link
-                  to="/forgot-password">
+                <v-btn
+                  to="/forgot-password"
+                  text>
                     Forgot Password?
-                </router-link>
+                </v-btn>
                 <v-row>
                   <v-col md6>
                     <v-btn
@@ -59,8 +60,9 @@ export default {
   }),
   methods: {
     loginUser () {
-      this.$store.dispatch('login', this.login)
-      this.$router.push('/dashboard')
+      this.$store.dispatch('login', this.login).then(response => {
+        this.$router.go()
+      })
     }
   }
 }

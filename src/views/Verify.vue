@@ -29,6 +29,9 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
+import verifyresend from '@/graphql/verifyresend.gql'
+
 export default {
   name: 'Verify',
   data: () => ({
@@ -41,7 +44,14 @@ export default {
   },
   methods: {
     verifyResend () {
-      this.$store.dispatch('verify_resend')
+      axios({
+        method: 'post',
+        data: {
+          query: verifyresend
+        }
+      }).then(response => {
+        this.$router.go()
+      })
     }
   },
   beforeRouteEnter (to, from, next) {

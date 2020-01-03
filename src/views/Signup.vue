@@ -85,8 +85,9 @@ export default {
   }),
   methods: {
     signupUser () {
-      this.$store.dispatch('signup', this.signup)
-      this.$router.push('/signup')
+      this.$store.dispatch('signup', this.signup).then(response => {
+        this.$router.go()
+      })
     }
   }
 }
