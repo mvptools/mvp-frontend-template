@@ -63,6 +63,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   switch (to.name) {
     case 'Dashboard':
+    case 'UpdatePassword':
       if (store.getters.isAuthenticatedUser) {
         if (store.getters.isVerifiedUser) {
           next()
