@@ -7,6 +7,7 @@ import Dashboard from '@/views/Dashboard'
 import ForgotPassword from '@/views/ForgotPassword'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
+import UpdatePassword from '@/views/UpdatePassword'
 import Verify from '@/views/Verify'
 import FOFError from '@/views/FOFError'
 
@@ -37,6 +38,11 @@ const routes = [
     name: 'Signup',
     path: '/signup',
     component: Signup
+  },
+  {
+    name: 'UpdatePassword',
+    path: '/update-password',
+    component: UpdatePassword
   },
   {
     name: 'Verify',

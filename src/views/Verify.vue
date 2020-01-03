@@ -58,6 +58,8 @@ export default {
     next(vm => {
       vm.$store.dispatch('verify', {
         token: to.params.token
+      }).then(response => {
+        this.$router.go()
       })
     })
   }
