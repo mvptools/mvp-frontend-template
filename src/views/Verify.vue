@@ -2,26 +2,24 @@
   <div id="verify">
     <v-container fluid>
       <v-row>
-        <v-col
-          cols="12"
-          md="12">
-            <v-card>
-              <v-card-title>
-                Welcome to {{ appName }}
-              </v-card-title>
-              <v-card-text>
-                <p>
-                  A link to verify your account has been sent to your email.
-                </p>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn
-                  color="primary"
-                  @click="verifyResend">
-                    Resend Link
-                  </v-btn>
-              </v-card-actions>
-            </v-card>
+        <v-col md12>
+          <v-card>
+            <v-card-title>
+              Welcome to {{ appName }}
+            </v-card-title>
+            <v-card-text>
+              <p>
+                A link to verify your account has been sent to your email.
+              </p>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                color="primary"
+                @click="verifyResend">
+                  Resend Link
+                </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -56,11 +54,13 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.$store.dispatch('verify', {
-        token: to.params.token
-      }).then(response => {
-        next('/dashboard')
-      })
+      if (to.params.token !== undefined) {
+        vm.$store.dispatch('verify', {
+          token: to.params.token
+        }).then(response => {
+          next('/dashboard')
+        })
+      }
     })
   }
 }

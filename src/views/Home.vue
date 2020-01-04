@@ -8,10 +8,13 @@
           justify="center">
             <v-col
               class="text-center"
-              cols="12"
-              md="12">
-                <h1 class="display-3">Welcome!</h1>
-                <h2 class="headline">{{ appName }}</h2>
+              md12>
+                <h1 class="display-3">
+                  Welcome!
+                </h1>
+                <h2 class="headline">
+                  {{ appName }}
+                </h2>
             </v-col>
         </v-row>
     </v-parallax>

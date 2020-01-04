@@ -2,16 +2,14 @@
   <div id="dashboard">
     <v-container fluid>
       <v-row>
-        <v-col
-          cols="12"
-          md="12">
-            <h1 class="headline">
-              Dashboard
-            </h1>
+        <v-col md12>
+          <h1 class="headline">
+            Dashboard
+          </h1>
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col>
+        <v-col md12>
           <v-card
             to="/update-password">
               <v-card-title>

@@ -2,12 +2,14 @@
   <div id="fof-error">
     <v-container fluid>
       <v-row>
-        <v-col
-          cols="12"
-          md="12">
+        <v-col md12>
             <div class="content">
-              <h1 class="display-2">404</h1>
-              <p class="headline">Page not found</p>
+              <h1 class="display-2">
+                404
+              </h1>
+              <p class="headline">
+                Page not found
+              </p>
               <v-btn
                 color="primary"
                 to="/">
