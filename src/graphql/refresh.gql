@@ -1,0 +1,6 @@
+mutation Refresh {
+  refresh {
+    api_token,
+    expires_in
+  }
+}
