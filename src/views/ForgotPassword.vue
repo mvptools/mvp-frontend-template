@@ -35,11 +35,13 @@
             <v-card-text v-if="hasToken">
               <v-form @submit.prevent="passwordReset">
                 <v-text-field
+                  :error-messages="error.password"
                   label="New Password"
                   v-model="password_reset.password"
                   type="password">
                 </v-text-field>
                 <v-text-field
+                  :error-messages="error.password_confirmation"
                   label="Confirm New Password"
                   v-model="password_reset.password_confirmation"
                   type="password">
@@ -70,6 +72,11 @@ export default {
   name: 'ForgotPassword',
   data: () => ({
     email_sent: false,
+    error: {
+      token: '',
+      password: '',
+      password_confirmation: ''
+    },
     login: '',
     password_reset: {
       token: '',
@@ -84,11 +91,21 @@ export default {
   },
   methods: {
     passwordReset () {
+      this.password_reset.token = this.$route.params.token
+
       this.$store.dispatch('password_reset', this.password_reset).then(response => {
         this.$router.go()
       }).catch(error => {
+        console.log(error)
+
         if (error[0].extensions.category === 'auth') {
           this.$router.push('/login')
+        }
+
+        if (error[0].extensions.category === 'validation') {
+          console.log(error[0].extensions.validation['input.token'])
+          this.error.password = error[0].extensions.validation['input.password']
+          this.error.password_confirmation = error[0].extensions.validation['input.password_confirmation']
         }
       })
     },
@@ -107,11 +124,6 @@ export default {
         this.email_sent = false
       })
     }
-  },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.password_reset.token = to.params.token
-    })
   }
 }
 </script>
