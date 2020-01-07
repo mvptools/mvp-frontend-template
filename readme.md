@@ -6,6 +6,7 @@
 - Vue.js & Vuetify
 - GraphQL with Vuex & Axios
 - Basic authentication
+- Server side input validation on existing forms
 
 ### Potential To-Do Items ###
 
