@@ -1,7 +1,5 @@
 import axios from 'axios'
 import isJSON from 'is-json'
-import router from '@/router'
-import store from '@/store'
 import refresh from '@/graphql/refresh.gql'
 
 const axiosInstance = axios.create({
@@ -27,9 +25,9 @@ axiosInstance.interceptors.response.use(response => {
     }).then(response => {
       localStorage.setItem('token', JSON.stringify(response.data.data.refresh))
     }).catch(() => {
-      store.dispatch('logout').then(() => {
-        router.go()
-      })
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      location.reload()
     })
   }
 
